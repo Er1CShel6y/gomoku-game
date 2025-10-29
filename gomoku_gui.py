@@ -10,27 +10,31 @@ from gomoku_game import GomokuGame, Player
 
 class GomokuGUI:
     """
-    Gomoku Game with Tkinter GUI - Modern Design
-    - Beautiful graphical 15x15 board
-    - Mouse click to place pieces
-    - Real-time win detection
-    - Modern UI with better visuals
+    Gomoku Game with Tkinter GUI - Premium Modern Design
+    - Beautiful graphical 15x15 board with enhanced visuals
+    - Mouse click to place pieces with smooth animations
+    - Real-time win detection with visual effects
+    - Modern premium UI with gradient-like effects
+    - Dark theme with elegant color scheme
     """
 
-    # Color scheme
-    BG_COLOR = "#1a1a2e"           # Deep blue-black background
-    HEADER_COLOR = "#16213e"       # Darker header
-    ACCENT_COLOR = "#0f3460"       # Accent color
-    TEXT_COLOR = "#eaeaea"         # Light text
-    BOARD_COLOR = "#d4a574"        # Warm board color
+    # Premium color scheme - Dark theme with gradient
+    BG_COLOR = "#0f0f23"           # Deep dark background
+    HEADER_COLOR = "#1a1a3e"       # Premium dark header
+    ACCENT_COLOR = "#2a2d5a"       # Premium accent (blue-purple)
+    TEXT_COLOR = "#f0f0f0"         # Bright light text
+    BOARD_COLOR = "#c9a561"        # Premium warm board color
     GRID_COLOR = "#8b7355"         # Grid lines
-    BUTTON_COLOR = "#e94560"       # Modern red accent
-    BUTTON_HOVER = "#ff6b7a"       # Lighter red on hover
+    BUTTON_COLOR = "#ff6b9d"       # Modern pink accent
+    BUTTON_HOVER = "#ff85ad"       # Lighter pink on hover
+    SUCCESS_COLOR = "#4ecca3"      # Green for success
+    INFO_COLOR = "#6fa8dc"         # Blue for info
 
     def __init__(self, root):
         """Initialize the GUI"""
         self.root = root
-        self.root.title("Gomoku Game")
+        self.root.title("⚫ Gomoku Game - Five in a Row Strategy Game")
+        self.root.resizable(False, False)
 
         # Game engine
         self.game = GomokuGame(board_size=15)
@@ -38,8 +42,9 @@ class GomokuGUI:
 
         # 计算合适的窗口大小：棋盘大小 + UI 边距
         canvas_size = self.cell_size * self.game.board_size + 30  # 棋盘大小
-        window_height = 80 + 20 + canvas_size + 60 + 30  # header + margin + canvas + status + padding
-        self.root.geometry(f"{canvas_size + 30}x{window_height}")
+        window_height = 100 + 20 + canvas_size + 80 + 30  # header + margin + canvas + status + padding
+        window_width = canvas_size + 30
+        self.root.geometry(f"{window_width}x{window_height}")
         self.root.configure(bg=self.BG_COLOR)
 
         # Setup UI
@@ -67,62 +72,100 @@ class GomokuGUI:
         self.draw_board()
 
     def _create_header(self):
-        """Create header section with title"""
-        self.header_frame = tk.Frame(self.main_frame, bg=self.HEADER_COLOR, height=80)
+        """Create header section with premium title design"""
+        self.header_frame = tk.Frame(self.main_frame, bg=self.HEADER_COLOR, height=90)
         self.header_frame.pack(fill=tk.X, pady=(0, 20))
         self.header_frame.pack_propagate(False)
 
+        # Title with emoji and enhanced styling
         self.title_label = tk.Label(
             self.header_frame,
-            text=" Gomoku ",
-            font=("Arial", 28, "bold"),
+            text="⚫ Gomoku ⚪",
+            font=("Arial", 32, "bold"),
             bg=self.HEADER_COLOR,
             fg=self.BUTTON_COLOR
         )
-        self.title_label.pack(pady=15)
+        self.title_label.pack(pady=10)
+
+        # Subtitle
+        self.subtitle_label = tk.Label(
+            self.header_frame,
+            text="Five in a Row • Strategy Game",
+            font=("Arial", 11),
+            bg=self.HEADER_COLOR,
+            fg=self.INFO_COLOR
+        )
+        self.subtitle_label.pack(pady=(0, 5))
 
     def _create_info_frame(self):
-        """Create info frame with player info and buttons"""
+        """Create premium info frame with player info and buttons"""
         self.info_frame = tk.Frame(self.main_frame, bg=self.ACCENT_COLOR)
         self.info_frame.pack(fill=tk.X, pady=(0, 20), padx=5)
 
-        # Left info section
+        # Left info section with enhanced layout
         left_info = tk.Frame(self.info_frame, bg=self.ACCENT_COLOR)
-        left_info.pack(side=tk.LEFT, padx=15, pady=12)
+        left_info.pack(side=tk.LEFT, padx=20, pady=15)
 
-        # Current player indicator
+        # Current player indicator with icon
         self.player_label = tk.Label(
             left_info,
-            text="Current Player ：Black",
-            font=("Arial", 13, "bold"),
-            bg=self.ACCENT_COLOR,
-            fg="#000000"
-        )
-        self.player_label.pack(side=tk.LEFT, padx=15)
-
-        # Move counter
-        self.move_label = tk.Label(
-            left_info,
-            text="Move Counting ：0",
-            font=("Arial", 13, "bold"),
+            text="🎮 Current Player: Black",
+            font=("Arial", 12, "bold"),
             bg=self.ACCENT_COLOR,
             fg=self.TEXT_COLOR
         )
-        self.move_label.pack(side=tk.LEFT, padx=15)
+        self.player_label.pack(side=tk.LEFT, padx=10)
+
+        # Separator
+        separator = tk.Label(
+            left_info,
+            text="│",
+            font=("Arial", 12),
+            bg=self.ACCENT_COLOR,
+            fg=self.INFO_COLOR
+        )
+        separator.pack(side=tk.LEFT, padx=5)
+
+        # Move counter with icon
+        self.move_label = tk.Label(
+            left_info,
+            text="📊 Moves: 0",
+            font=("Arial", 12, "bold"),
+            bg=self.ACCENT_COLOR,
+            fg=self.TEXT_COLOR
+        )
+        self.move_label.pack(side=tk.LEFT, padx=10)
 
         # Right buttons section
         right_buttons = tk.Frame(self.info_frame, bg=self.ACCENT_COLOR)
-        right_buttons.pack(side=tk.RIGHT, padx=15, pady=12)
+        right_buttons.pack(side=tk.RIGHT, padx=20, pady=15)
 
-        # Reset button
+        # Undo button
+        self.undo_button = tk.Button(
+            right_buttons,
+            text="↶ Undo",
+            font=("Arial", 10, "bold"),
+            command=self.undo_move,
+            bg="#6fa8dc",
+            fg="white",
+            padx=15,
+            pady=8,
+            relief=tk.FLAT,
+            cursor="hand2",
+            activebackground="#85b9e8",
+            activeforeground="white"
+        )
+        self.undo_button.pack(side=tk.LEFT, padx=5)
+
+        # Reset button with enhanced style
         self.reset_button = tk.Button(
             right_buttons,
-            text="Restart",
-            font=("Arial", 11, "bold"),
+            text="🔄 Restart",
+            font=("Arial", 10, "bold"),
             command=self.reset_game,
             bg=self.BUTTON_COLOR,
             fg="white",
-            padx=20,
+            padx=15,
             pady=8,
             relief=tk.FLAT,
             cursor="hand2",
@@ -150,22 +193,22 @@ class GomokuGUI:
         self.canvas.bind("<Motion>", self.on_canvas_motion)
 
     def _create_status_frame(self):
-        """Create status frame for messages"""
-        self.status_frame = tk.Frame(self.main_frame, bg=self.ACCENT_COLOR, height=60)
+        """Create premium status frame for messages"""
+        self.status_frame = tk.Frame(self.main_frame, bg=self.ACCENT_COLOR, height=70)
         self.status_frame.pack(fill=tk.X, padx=5)
         self.status_frame.pack_propagate(False)
 
-        # Status message
+        # Status message with enhanced styling
         self.status_label = tk.Label(
             self.status_frame,
-            text="Click the board to place a stone",
+            text="💡 Click the board to place a stone",
             font=("Arial", 11),
             bg=self.ACCENT_COLOR,
             fg=self.TEXT_COLOR,
-            wraplength=900,
+            wraplength=600,
             justify=tk.LEFT
         )
-        self.status_label.pack(fill=tk.BOTH, padx=15, pady=8, side=tk.LEFT)
+        self.status_label.pack(fill=tk.BOTH, padx=15, pady=10, side=tk.LEFT)
 
         # Last move indicator
         self.last_move_label = tk.Label(
@@ -173,9 +216,9 @@ class GomokuGUI:
             text="",
             font=("Arial", 9),
             bg=self.ACCENT_COLOR,
-            fg="#aaaaaa"
+            fg=self.INFO_COLOR
         )
-        self.last_move_label.pack(fill=tk.BOTH, padx=15, pady=8, side=tk.RIGHT)
+        self.last_move_label.pack(fill=tk.BOTH, padx=15, pady=10, side=tk.RIGHT)
 
     def draw_board(self):
         """Draw the game board with enhanced visuals"""
@@ -241,34 +284,40 @@ class GomokuGUI:
                                        fill="#ff9800", width=2)
 
     def draw_piece(self, row, col, player_value):
-        """Draw a piece on the board with 3D effect"""
+        """Draw a piece on the board with premium 3D effect"""
         x = 10 + col * self.cell_size
         y = 10 + row * self.cell_size
         radius = self.cell_size // 2 - 3
 
         if player_value == Player.BLACK.value:
-            color = "#1a1a1a"
+            color = "#0d0d0d"
             outline = "#000000"
-            shadow_color = "#333333"
-            highlight_color = "#3a3a3a"
+            shadow_color = "#2a2a2a"
+            highlight_color = "#4a4a4a"
+            glow_color = "#1a1a1a"
         else:  # WHITE
-            color = "#f0f0f0"
-            outline = "#999999"
-            shadow_color = "#dddddd"
+            color = "#f5f5f5"
+            outline = "#b0b0b0"
+            shadow_color = "#e0e0e0"
             highlight_color = "#ffffff"
+            glow_color = "#f0f0f0"
 
-        # Draw shadow
+        # Draw glow effect (outer shadow)
+        self.canvas.create_oval(x - radius - 3, y - radius - 3, x + radius + 3, y + radius + 3,
+                               fill=glow_color, outline="")
+
+        # Draw shadow for depth
         self.canvas.create_oval(x - radius - 1, y - radius + 1, x + radius + 1, y + radius + 3,
                                fill=shadow_color, outline="")
 
-        # Draw main piece
+        # Draw main piece with border
         self.canvas.create_oval(x - radius, y - radius, x + radius, y + radius,
-                               fill=color, outline=outline, width=2)
+                               fill=color, outline=outline, width=3)
 
-        # Draw highlight
-        highlight_radius = radius // 3
-        self.canvas.create_oval(x - highlight_radius // 2, y - highlight_radius // 2,
-                               x + highlight_radius // 2, y + highlight_radius // 2,
+        # Draw highlight (glossy effect)
+        highlight_radius = radius // 2
+        self.canvas.create_oval(x - highlight_radius // 2, y - highlight_radius // 2 - 2,
+                               x + highlight_radius // 2, y + highlight_radius // 2 - 2,
                                fill=highlight_color, outline="")
 
     def on_canvas_click(self, event):
@@ -295,10 +344,13 @@ class GomokuGUI:
 
         # Check for win
         if self.game.game_over:
+            winner_emoji = "⚫" if self.game.winner == Player.BLACK else "⚪"
             winner_name = "Black" if self.game.winner == Player.BLACK else "White"
             messagebox.showinfo(
-                "Game Over!",
-                f"Congratulations! {winner_name} wins!\n\nTotal moves: {len(self.game.move_history)}"
+                "🎉 Game Over!",
+                f"🎊 Congratulations! {winner_emoji} {winner_name} wins!\n\n"
+                f"Total moves: {len(self.game.move_history)}\n\n"
+                f"Click 'Restart' to play again!"
             )
 
     def on_canvas_motion(self, event):
@@ -306,19 +358,27 @@ class GomokuGUI:
         pass
 
     def update_ui(self):
-        """Update UI elements"""
-        # Update current player label
-        player_color = "Black" if self.game.current_player == Player.BLACK else "White"
-        self.player_label.config(text=f"Current Player ：{player_color}")
+        """Update UI elements with enhanced styling"""
+        # Update current player label with emoji
+        if self.game.current_player == Player.BLACK:
+            player_color = "Black"
+            player_emoji = "⚫"
+        else:
+            player_color = "White"
+            player_emoji = "⚪"
+
+        self.player_label.config(text=f"🎮 Current Player: {player_emoji} {player_color}")
 
         # Update move counter
-        self.move_label.config(text=f"Move Counting ：{len(self.game.move_history)}")
+        self.move_label.config(text=f"📊 Moves: {len(self.game.move_history)}")
 
-        # Update last move
+        # Update last move with enhanced display
         if self.game.move_history:
             last_row, last_col = self.game.move_history[-1]
+            # Convert to letter-number notation (common in board games)
+            col_letter = chr(65 + last_col)  # A, B, C, ...
             self.last_move_label.config(
-                text=f"Last move: Row {last_row + 1}, Col {last_col + 1}"
+                text=f"Last: {col_letter}{last_row + 1}"
             )
         else:
             self.last_move_label.config(text="")
@@ -341,12 +401,32 @@ class GomokuGUI:
                 fg=self.TEXT_COLOR
             )
 
+    def undo_move(self):
+        """Undo the last move"""
+        if not self.game.move_history:
+            self.status_label.config(text="❌ No moves to undo!", fg="#ff6b6b")
+            self.root.after(2000, self._update_status)
+            return
+
+        # Remove last two moves (current player and opponent)
+        if len(self.game.move_history) >= 1:
+            self.game.move_history.pop()
+            # Reset game_over status if it was set
+            if self.game.game_over:
+                self.game.game_over = False
+                self.game.winner = None
+
+        self.draw_board()
+        self.update_ui()
+        self.status_label.config(text="↶ Move undone!", fg=self.SUCCESS_COLOR)
+        self.root.after(1500, self._update_status)
+
     def reset_game(self):
         """Reset the game"""
         self.game.reset()
         self.draw_board()
         self.update_ui()
-        self.status_label.config(text="Game reset! Click to start playing.", fg=self.TEXT_COLOR)
+        self.status_label.config(text="🔄 Game reset! Click to start playing.", fg=self.TEXT_COLOR)
 
 
 def main():
